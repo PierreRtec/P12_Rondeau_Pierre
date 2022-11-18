@@ -3,6 +3,8 @@ from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
+from .models import Customer
+
 
 class RegisterSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
@@ -49,3 +51,30 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.save()
 
         return user
+
+
+class CustomerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Customer
+        fields = "__all__"
+        read_only_fields = ("id", "sale_contact", "created_time", "updated_time")
+
+    def _user(self):
+        request = self.context.get("request", None)
+        if request:
+            return request.user
+
+    def create(self, validated_data):
+        customer = Customer.objects.create(
+            first_name=validated_data["first_name"],
+            last_name=validated_data["last_name"],
+            email=validated_data["email"],
+            prospect=False,
+            phone_number=validated_data["phone_number"],
+            mobile_number=validated_data["mobile_number"],
+            company_name=validated_data["company_name"],
+            author_user=self._user(),
+        )
+        customer.save()
+
+        return customer
