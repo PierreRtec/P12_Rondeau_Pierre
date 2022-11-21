@@ -73,8 +73,33 @@ class CustomerSerializer(serializers.ModelSerializer):
             phone_number=validated_data["phone_number"],
             mobile_number=validated_data["mobile_number"],
             company_name=validated_data["company_name"],
-            sales_contact=self._user()
+            sales_contact=self._user(),
         )
         customers.save()
-
         return customers
+
+
+class ProspectSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Customer
+        fields = "__all__"
+        read_only_fields = ("id", "sale_contact", "created_time", "updated_time")
+
+    def _user(self):
+        request = self.context.get("request", None)
+        if request:
+            return request.user
+
+    def create(self, validated_data):
+        prospects = Customer.objects.create(
+            first_name=validated_data["first_name"],
+            last_name=validated_data["last_name"],
+            email=validated_data["email"],
+            prospect=True,
+            phone_number=validated_data["phone_number"],
+            mobile_number=validated_data["mobile_number"],
+            company_name=validated_data["company_name"],
+            sales_contact=self._user(),
+        )
+        prospects.save()
+        return prospects

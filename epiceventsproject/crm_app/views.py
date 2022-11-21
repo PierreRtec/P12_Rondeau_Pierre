@@ -2,7 +2,12 @@ from rest_framework import viewsets
 from rest_framework.permissions import AllowAny
 
 from .models import Customer
-from .serializers import RegisterSerializer, User, CustomerSerializer
+from .serializers import (
+    CustomerSerializer,
+    ProspectSerializer,
+    RegisterSerializer,
+    User,
+)
 
 
 class RegisterViewSet(viewsets.ModelViewSet):
@@ -26,4 +31,17 @@ class CustomerViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowAny]
 
     def get_queryset(self):
-        return Customer.objects.filter(prospect=False)
+        return Customer.objects.all()
+
+
+# todo : check si possible prospect OU client lors d'un POST, sinon laisser comme ça
+class ProspectViewSet(viewsets.ModelViewSet):
+    """
+    Prospects view of Customer models.
+    """
+
+    serializer_class = ProspectSerializer
+    permission_classes = [AllowAny]
+
+    def get_queryset(self):
+        return Customer.objects.all()
