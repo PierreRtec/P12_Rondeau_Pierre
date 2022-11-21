@@ -3,7 +3,7 @@ from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
-from .models import Customer
+from .models import Contract, Customer
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -103,3 +103,26 @@ class ProspectSerializer(serializers.ModelSerializer):
         )
         prospects.save()
         return prospects
+
+
+class ContractSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Contract
+        fields = "__all__"
+        read_only_fields = ("id", "sale_contact", "created_time", "updated_time")
+
+    def _user(self):
+        request = self.context.get("request", None)
+        if request:
+            return request.user
+
+    def create(self, validated_data):
+        contracts = Contract.objects.create(
+            status=True,
+            amount=validated_data["amount"],
+            sales_contact=self._user(),
+            client=validated_data["client"],
+            payment_due=validated_data["payment_due"],
+        )
+        contracts.save()
+        return contracts
