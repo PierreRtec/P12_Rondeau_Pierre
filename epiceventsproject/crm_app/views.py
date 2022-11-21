@@ -19,7 +19,7 @@ class RegisterViewSet(viewsets.ModelViewSet):
 
 class CustomerViewSet(viewsets.ModelViewSet):
     """
-    Customer view
+    Customers view of Customer models.
     """
 
     serializer_class = CustomerSerializer

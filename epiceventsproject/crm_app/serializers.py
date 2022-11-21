@@ -65,7 +65,7 @@ class CustomerSerializer(serializers.ModelSerializer):
             return request.user
 
     def create(self, validated_data):
-        customer = Customer.objects.create(
+        customers = Customer.objects.create(
             first_name=validated_data["first_name"],
             last_name=validated_data["last_name"],
             email=validated_data["email"],
@@ -73,8 +73,8 @@ class CustomerSerializer(serializers.ModelSerializer):
             phone_number=validated_data["phone_number"],
             mobile_number=validated_data["mobile_number"],
             company_name=validated_data["company_name"],
-            author_user=self._user(),
+            sales_contact=self._user()
         )
-        customer.save()
+        customers.save()
 
-        return customer
+        return customers
