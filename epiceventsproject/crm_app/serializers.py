@@ -3,7 +3,7 @@ from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
-from .models import Contract, Customer
+from .models import Contract, Customer, Event
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -126,3 +126,27 @@ class ContractSerializer(serializers.ModelSerializer):
         )
         contracts.save()
         return contracts
+
+
+class EventSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Event
+        fields = "__all__"
+        read_only_fields = ("id", "support_contact", "created_time", "updated_time")
+
+    def _user(self):
+        request = self.context.get("request", None)
+        if request:
+            return request.user
+
+    def create(self, validated_data):
+        events = Contract.objects.create(
+            event_status=True,
+            support_contact=self._user(),
+            client=validated_data["client"],
+            notes=validated_data["notes"],
+            attendees=validated_data["attendees"],
+            event_date=validated_data["event_date"],
+        )
+        events.save()
+        return events

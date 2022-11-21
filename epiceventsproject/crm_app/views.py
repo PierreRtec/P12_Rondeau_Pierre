@@ -1,10 +1,11 @@
 from rest_framework import viewsets
 from rest_framework.permissions import AllowAny
 
-from .models import Contract, Customer
+from .models import Contract, Customer, Event
 from .serializers import (
     ContractSerializer,
     CustomerSerializer,
+    EventSerializer,
     ProspectSerializer,
     RegisterSerializer,
     User,
@@ -58,3 +59,15 @@ class ContractViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return Contract.objects.all()
+
+
+class EventViewSet(viewsets.ModelViewSet):
+    """
+    Contracts view of Contract models.
+    """
+
+    serializer_class = EventSerializer
+    permission_classes = [AllowAny]
+
+    def get_queryset(self):
+        return Event.objects.all()

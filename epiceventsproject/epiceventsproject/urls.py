@@ -1,6 +1,7 @@
 from crm_app.views import (
     ContractViewSet,
     CustomerViewSet,
+    EventViewSet,
     ProspectViewSet,
     RegisterViewSet,
 )
@@ -14,12 +15,16 @@ router.register(r"register", RegisterViewSet, basename="register")
 router.register(r"customers", CustomerViewSet, basename="customers")
 router.register(r"prospects", ProspectViewSet, basename="prospects")
 router.register(r"contracts", ContractViewSet, basename="contracts")
+router.register(r"events", EventViewSet, basename="events")
 
 customers_router = routers.NestedSimpleRouter(router, r"customers", lookup="customer")
 
 prospects_router = routers.NestedSimpleRouter(router, r"prospects", lookup="prospect")
 
 contracts_router = routers.NestedSimpleRouter(router, r"contracts", lookup="contract")
+
+events_router = routers.NestedSimpleRouter(router, r"events", lookup="event")
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -30,4 +35,5 @@ urlpatterns = [
     path("api/", include(customers_router.urls)),
     path("api/", include(prospects_router.urls)),
     path("api/", include(contracts_router.urls)),
+    path("api/", include(events_router.urls)),
 ]
