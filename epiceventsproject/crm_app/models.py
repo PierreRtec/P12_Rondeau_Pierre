@@ -1,5 +1,33 @@
-from django.conf.global_settings import AUTH_USER_MODEL
+from django.contrib.auth.models import AbstractUser, UserManager
+from django.utils.translation import gettext_lazy as _
 from django.db import models
+
+
+class CustomUser(AbstractUser):
+    """
+    super_user custom creation with UserManager
+    """
+
+    MANAGEMENT_TEAM = 1
+    SUPPORT_TEAM = 2
+    SALES_TEAM = 3
+
+    ROLE_CHOICES = (
+        (MANAGEMENT_TEAM, "management_team"),
+        (SUPPORT_TEAM, "support_team"),
+        (SALES_TEAM, "sales_team"),
+    )
+
+    role = models.PositiveSmallIntegerField(
+        _("role"), choices=ROLE_CHOICES, blank=True, null=True
+    )
+
+    object = UserManager()
+
+    class Meta:
+        verbose_name = _("custom_user")
+        verbose_name_plural = _("custom_users")
+        ordering = ["role"]
 
 
 class Customer(models.Model):
@@ -14,7 +42,7 @@ class Customer(models.Model):
     company_name = models.CharField(max_length=250)
     prospect = models.BooleanField(default=True)
     sales_contact = models.ForeignKey(
-        to=AUTH_USER_MODEL,
+        to=CustomUser,
         related_name="sc_customer",
         on_delete=models.DO_NOTHING,
         blank=True,
@@ -38,7 +66,7 @@ class Contract(models.Model):
         null=True,
     )
     sales_contact = models.ForeignKey(
-        to=AUTH_USER_MODEL,
+        to=CustomUser,
         related_name="sc_contract",
         on_delete=models.DO_NOTHING,
         blank=True,
@@ -62,7 +90,7 @@ class Event(models.Model):
         null=True,
     )
     support_contact = models.ForeignKey(
-        to=AUTH_USER_MODEL,
+        to=CustomUser,
         related_name="sc_event",
         on_delete=models.DO_NOTHING,
         blank=True,

@@ -1,35 +1,35 @@
 from rest_framework import viewsets
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import IsAuthenticated
 
-from .models import Contract, Customer, Event
+from .models import CustomUser, Contract, Customer, Event
+from .permissions import IsSalesTeamGroup, IsManagementTeamGroup, IsSupportTeamGroup
 from .serializers import (
     ContractSerializer,
     CustomerSerializer,
     EventSerializer,
-    RegisterSerializer,
-    User,
+    CustomUserSerializer,
 )
 
 
-class RegisterViewSet(viewsets.ModelViewSet):
-    """
-    Create user account when first connexion, registration view.
-    """
+# todo: est-ce que je peux mettre des décorateurs (ex: login_required) en plus ???
 
-    serializer_class = RegisterSerializer
-    permission_classes = [AllowAny]
+
+class CustomUserViewSet(viewsets.ModelViewSet):
+
+    serializer_class = CustomUserSerializer
+    permission_classes = [IsAuthenticated, IsManagementTeamGroup]
 
     def get_queryset(self):
-        return User.objects.all()
+        return CustomUser.objects.all()
 
 
 class CustomerViewSet(viewsets.ModelViewSet):
     """
-    Customers view of Customer models.
+    Customers view of Customer model.
     """
 
     serializer_class = CustomerSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated, IsSupportTeamGroup, IsSalesTeamGroup]
 
     def get_queryset(self):
         return Customer.objects.all()
@@ -37,11 +37,11 @@ class CustomerViewSet(viewsets.ModelViewSet):
 
 class ContractViewSet(viewsets.ModelViewSet):
     """
-    Contracts view of Contract models.
+    Contracts view of Contract model.
     """
 
     serializer_class = ContractSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated, IsSupportTeamGroup, IsSalesTeamGroup]
 
     def get_queryset(self):
         return Contract.objects.all()
@@ -49,11 +49,11 @@ class ContractViewSet(viewsets.ModelViewSet):
 
 class EventViewSet(viewsets.ModelViewSet):
     """
-    Contracts view of Contract models.
+    Events view of Event model.
     """
 
     serializer_class = EventSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated, IsSupportTeamGroup, IsSalesTeamGroup]
 
     def get_queryset(self):
         return Event.objects.all()
