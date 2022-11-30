@@ -1,23 +1,20 @@
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 
-from .models import CustomUser, Contract, Customer, Event
-from .permissions import IsSalesTeamGroup, IsManagementTeamGroup, IsSupportTeamGroup
+from .models import Contract, Customer, CustomUser, Event
+from .permissions import IsAdmin, IsSalesTeam, IsSupportTeam
 from .serializers import (
     ContractSerializer,
     CustomerSerializer,
-    EventSerializer,
     CustomUserSerializer,
+    EventSerializer,
 )
-
-
-# todo: est-ce que je peux mettre des décorateurs (ex: login_required) en plus ???
 
 
 class CustomUserViewSet(viewsets.ModelViewSet):
 
     serializer_class = CustomUserSerializer
-    permission_classes = [IsAuthenticated, IsManagementTeamGroup]
+    permission_classes = [IsAuthenticated, IsAdmin]
 
     def get_queryset(self):
         return CustomUser.objects.all()
@@ -29,7 +26,7 @@ class CustomerViewSet(viewsets.ModelViewSet):
     """
 
     serializer_class = CustomerSerializer
-    permission_classes = [IsAuthenticated, IsSupportTeamGroup, IsSalesTeamGroup]
+    permission_classes = [IsAuthenticated, IsSupportTeam, IsSalesTeam]
 
     def get_queryset(self):
         return Customer.objects.all()
@@ -41,7 +38,7 @@ class ContractViewSet(viewsets.ModelViewSet):
     """
 
     serializer_class = ContractSerializer
-    permission_classes = [IsAuthenticated, IsSupportTeamGroup, IsSalesTeamGroup]
+    permission_classes = [IsAuthenticated, IsSupportTeam, IsSalesTeam]
 
     def get_queryset(self):
         return Contract.objects.all()
@@ -53,7 +50,7 @@ class EventViewSet(viewsets.ModelViewSet):
     """
 
     serializer_class = EventSerializer
-    permission_classes = [IsAuthenticated, IsSupportTeamGroup, IsSalesTeamGroup]
+    permission_classes = [IsAuthenticated, IsSupportTeam, IsSalesTeam]
 
     def get_queryset(self):
         return Event.objects.all()

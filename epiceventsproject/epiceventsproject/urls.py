@@ -3,11 +3,7 @@ from django.urls import include, path
 from rest_framework_nested import routers
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
-from crm_app.views import (
-    ContractViewSet,
-    CustomerViewSet,
-    EventViewSet,
-)
+from crm_app.views import ContractViewSet, CustomerViewSet, EventViewSet
 
 router = routers.SimpleRouter()
 router.register(r"customers", CustomerViewSet, basename="customers")
@@ -23,8 +19,8 @@ events_router = routers.NestedSimpleRouter(router, r"events", lookup="event")
 
 urlpatterns = [
     # admin management authentification url
-    # required to create a super user first
-    path("ee-admin/", admin.site.urls),
+    # required to create a superuser first
+    path("management-admin/", admin.site.urls),
     # api auth
     path("api-auth/", include("rest_framework.urls")),
     path("auth/login/", TokenObtainPairView.as_view(), name="obtain_tokens"),

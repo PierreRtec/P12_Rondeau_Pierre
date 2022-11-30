@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import CustomUser, Contract, Customer, Event
+from .models import Contract, Customer, CustomUser, Event
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
