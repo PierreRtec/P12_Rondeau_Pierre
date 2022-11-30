@@ -5,6 +5,7 @@ from django.db import models
 class Customer(models.Model):
 
     objects = None
+
     first_name = models.CharField(max_length=25)
     last_name = models.CharField(max_length=25)
     email = models.CharField(max_length=100)
@@ -27,7 +28,7 @@ class Contract(models.Model):
 
     objects = None
 
-    amount = models.FloatField()  # mettre FloatField ou non ?
+    amount = models.FloatField()
     status = models.BooleanField(default=True)
     client = models.ForeignKey(
         to=Customer,

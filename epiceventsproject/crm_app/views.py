@@ -6,7 +6,6 @@ from .serializers import (
     ContractSerializer,
     CustomerSerializer,
     EventSerializer,
-    ProspectSerializer,
     RegisterSerializer,
     User,
 )
@@ -30,19 +29,6 @@ class CustomerViewSet(viewsets.ModelViewSet):
     """
 
     serializer_class = CustomerSerializer
-    permission_classes = [AllowAny]
-
-    def get_queryset(self):
-        return Customer.objects.all()
-
-
-# todo : check si possible prospect OU client lors d'un POST, sinon laisser comme ça
-class ProspectViewSet(viewsets.ModelViewSet):
-    """
-    Prospects view of Customer models.
-    """
-
-    serializer_class = ProspectSerializer
     permission_classes = [AllowAny]
 
     def get_queryset(self):

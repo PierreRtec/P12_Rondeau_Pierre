@@ -45,8 +45,8 @@ class RegisterSerializer(serializers.ModelSerializer):
             email=validated_data["email"],
             first_name=validated_data["first_name"],
             last_name=validated_data["last_name"],
+            is_staff=True,
         )
-
         user.set_password(validated_data["password"])
         user.save()
 
@@ -79,32 +79,6 @@ class CustomerSerializer(serializers.ModelSerializer):
         return customers
 
 
-class ProspectSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Customer
-        fields = "__all__"
-        read_only_fields = ("id", "sale_contact", "created_time", "updated_time")
-
-    def _user(self):
-        request = self.context.get("request", None)
-        if request:
-            return request.user
-
-    def create(self, validated_data):
-        prospects = Customer.objects.create(
-            first_name=validated_data["first_name"],
-            last_name=validated_data["last_name"],
-            email=validated_data["email"],
-            prospect=True,
-            phone_number=validated_data["phone_number"],
-            mobile_number=validated_data["mobile_number"],
-            company_name=validated_data["company_name"],
-            sales_contact=self._user(),
-        )
-        prospects.save()
-        return prospects
-
-
 class ContractSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contract
@@ -124,7 +98,9 @@ class ContractSerializer(serializers.ModelSerializer):
             client=validated_data["client"],
             payment_due=validated_data["payment_due"],
         )
-        contracts.save()
+        contracts.save()  # on save le contrat
+        contracts.client.prospect = False  # on set son att prospect à False
+        contracts.client.save()  # on save le client du contrat
         return contracts
 
 
