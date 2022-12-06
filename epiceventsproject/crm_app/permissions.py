@@ -1,12 +1,25 @@
+from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import permissions
+
+from crm_app.models import CustomUser
+from rest_framework.permissions import IsAdminUser
 
 """CUSTOM PERMISSIONS"""
 
 
+# groups permissions
+class GroupsPerms(permissions.BasePermission):
+    # django basics perms (het, head, options)
+    def has_permission(self, request, view):
+        return request.method in permissions.SAFE_METHODS
+
+    # django basics obj perms (het, head, options)
+    def has_object_permission(self, request, view, obj):
+        return request.method in permissions.SAFE_METHODS
+
+
+# permissions for managers
 class IsAdmin(permissions.BasePermission):
-    """
-    Check if user is admin (manager)
-    """
     def has_permission(self, request, view):
         user = request.user
         if user.is_superuser:
