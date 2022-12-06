@@ -1,8 +1,17 @@
+from django.contrib.auth.models import Group
 from rest_framework import serializers
 
 from .models import Contract, Customer, CustomUser, Event
 
 
+# todo check si ok recup groups (+ check view)
+class GroupSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Group
+        fields = ["url", "name"]
+
+
+# todo check si ok recup users (+ check view)
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser

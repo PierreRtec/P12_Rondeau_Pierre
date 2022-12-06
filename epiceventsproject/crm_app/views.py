@@ -1,18 +1,33 @@
+from django.contrib.auth.models import Group
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 
 from .models import Contract, Customer, CustomUser, Event
-from .permissions import IsAdmin, IsSalesTeam, IsSupportTeam
+from .permissions import GroupsPerms, IsAdmin, IsSalesTeam, IsSupportTeam
 from .serializers import (
     ContractSerializer,
     CustomerSerializer,
     CustomUserSerializer,
     EventSerializer,
+    GroupSerializer,
 )
 
 
-class CustomUserViewSet(viewsets.ModelViewSet):
+class GroupViewSet(viewsets.ModelViewSet):
+    """
+    ViewSet for /groups/ API endpoint
+    """
+    serializer_class = GroupSerializer
+    permission_classes = [IsAuthenticated, IsAdmin, GroupsPerms]
 
+    def get_queryset(self):
+        return Group.objects.all()
+
+
+class CustomUserViewSet(viewsets.ModelViewSet):
+    """
+    ViewSet for /users/ API endpoint
+    """
     serializer_class = CustomUserSerializer
     permission_classes = [IsAuthenticated, IsAdmin]
 
@@ -22,23 +37,22 @@ class CustomUserViewSet(viewsets.ModelViewSet):
 
 class CustomerViewSet(viewsets.ModelViewSet):
     """
-    Customers view of Customer model.
+    ViewSet for /customers/ API endpoint
     """
-
     serializer_class = CustomerSerializer
-    permission_classes = [IsAuthenticated, IsSupportTeam, IsSalesTeam]
+    permission_classes = [IsAdmin, IsAuthenticated, IsSalesTeam]
 
     def get_queryset(self):
-        return Customer.objects.all()
+        queryset_customer = Customer.objects.filter(sales_contact=self.request.user)
+        return queryset_customer
 
 
 class ContractViewSet(viewsets.ModelViewSet):
     """
-    Contracts view of Contract model.
+    ViewSet for /contracts/ API endpoint
     """
-
     serializer_class = ContractSerializer
-    permission_classes = [IsAuthenticated, IsSupportTeam, IsSalesTeam]
+    permission_classes = [IsAdmin, IsAuthenticated, IsSalesTeam]
 
     def get_queryset(self):
         return Contract.objects.all()
@@ -46,11 +60,10 @@ class ContractViewSet(viewsets.ModelViewSet):
 
 class EventViewSet(viewsets.ModelViewSet):
     """
-    Events view of Event model.
+    ViewSet for /events/ API endpoint
     """
-
     serializer_class = EventSerializer
-    permission_classes = [IsAuthenticated, IsSupportTeam, IsSalesTeam]
+    permission_classes = [IsAdmin, IsAuthenticated, IsSalesTeam]
 
     def get_queryset(self):
         return Event.objects.all()
