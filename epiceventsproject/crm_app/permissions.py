@@ -1,47 +1,41 @@
-from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import permissions
-
-from crm_app.models import CustomUser
-from rest_framework.permissions import IsAdminUser
 
 """CUSTOM PERMISSIONS"""
 
 
 # groups permissions
 class GroupsPerms(permissions.BasePermission):
-    # django basics perms (het, head, options)
+    # django basics perms (get, head, options)
     def has_permission(self, request, view):
         return request.method in permissions.SAFE_METHODS
 
-    # django basics obj perms (het, head, options)
+    # django basics obj perms (get, head, options)
     def has_object_permission(self, request, view, obj):
         return request.method in permissions.SAFE_METHODS
 
 
-# permissions for managers
-class IsAdmin(permissions.BasePermission):
-    def has_permission(self, request, view):
-        user = request.user
-        if user.is_superuser:
-            return True
-
-
 # permissions for sales_team
-class IsSalesTeam(permissions.BasePermission):
+# todo: restreindre methode DEL (seuls les admins)
+# - []  Créer des clients
+# - []  Afficher et mettre à jour les clients (qui leur sont attribués)
+# - []  Afficher et modifier les contrats (des clients qui leur sont attribués)
+# - []  Créer des événements pour un contrat
+class SalesTeam(permissions.BasePermission):
     def has_permission(self, request, view):
-        user = request.user
-        if user.groups.filter(name="sales_team").exists():
+        print("sales sales perm")
+        # role sales_team
+        if request.user.role == 3:
             return True
-        # check if is_superuser (True par défaut dans management_user)
-        elif user.is_superuser:
-            return True
-        # role user returned for sales team
-        return request.user.role == 2
+        return False
 
 
 # permissions for support_team
-class IsSupportTeam(permissions.BasePermission):
+# - [x]  Afficher et mettre à jour les événements (qui leur sont attribués)
+# - [x]  Afficher les clients (pour les clients des événements qui leur sont attribués)
+class SupportTeam(permissions.BasePermission):
     def has_permission(self, request, view):
-        user = request.user
-        if user.groups.filter(name="support_team").exists():
+        print("sales support perm")
+        # role support_team
+        if request.user.role == 2:
             return True
+        return False
