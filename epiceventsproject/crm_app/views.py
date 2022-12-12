@@ -52,7 +52,7 @@ class CustomerViewSet(viewsets.ModelViewSet):
             return Customer.objects.filter(sales_contact=self.request.user)
         # support team
         elif self.request.user.role == 2:
-            return Customer.objects.filter(sales_contact=self.request.user)
+            return Customer.objects.filter(support_contact=self.request.user)
         # admin
         elif self.request.user.role == 1:
             return Customer.objects.all()
@@ -69,7 +69,15 @@ class ContractViewSet(viewsets.ModelViewSet):
 
     # on renvoie que les objets liés a celui qui request # todo
     def get_queryset(self):
-        return Contract.objects.all()
+        # sales team
+        if self.request.user.role == 3:
+            return Contract.objects.filter(sales_contact=self.request.user)
+        # support team
+        elif self.request.user.role == 2:
+            return Contract.objects.filter(support_contact=self.request.user)
+        # admin
+        elif self.request.user.role == 1:
+            return Contract.objects.all()
 
 
 class EventViewSet(viewsets.ModelViewSet):
@@ -83,4 +91,12 @@ class EventViewSet(viewsets.ModelViewSet):
     # on renvoie que les objets liés a celui qui request # todo
     # si user support get un objet pas à lui, peut pas, si objet a lui il peut
     def get_queryset(self):
-        return Event.objects.all()
+        # sales team
+        if self.request.user.role == 3:
+            return Event.objects.filter(sales_contact=self.request.user)
+        # support team
+        elif self.request.user.role == 2:
+            return Event.objects.filter(support_contact=self.request.user)
+        # admin
+        elif self.request.user.role == 1:
+            return Event.objects.all()
