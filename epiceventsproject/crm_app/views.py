@@ -3,7 +3,7 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 
 from .models import Contract, Customer, CustomUser, Event
-from .permissions import GroupsPerms, SalesTeam, SupportTeam
+from .permissions import RolesPermissions
 from .serializers import (
     ContractSerializer,
     CustomerSerializer,
@@ -19,7 +19,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     """
 
     serializer_class = GroupSerializer
-    permission_classes = [IsAuthenticated, GroupsPerms, SalesTeam]
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         return Group.objects.all()
@@ -37,13 +37,14 @@ class CustomUserViewSet(viewsets.ModelViewSet):
         return CustomUser.objects.all()
 
 
+# todo check perms
 class CustomerViewSet(viewsets.ModelViewSet):
     """
     ViewSet for /customers/ API endpoint
     """
 
     serializer_class = CustomerSerializer
-    permission_classes = [IsAuthenticated, SupportTeam | SalesTeam]
+    permission_classes = [IsAuthenticated, RolesPermissions]
 
     def get_queryset(self):
         # sales team
@@ -57,14 +58,16 @@ class CustomerViewSet(viewsets.ModelViewSet):
             return Customer.objects.all()
 
 
+# todo perm sales support
 class ContractViewSet(viewsets.ModelViewSet):
     """
     ViewSet for /contracts/ API endpoint
     """
 
     serializer_class = ContractSerializer
-    permission_classes = [IsAuthenticated, SupportTeam | SalesTeam]
+    permission_classes = [IsAuthenticated, RolesPermissions]
 
+    # on renvoie que les objets liés a celui qui request # todo
     def get_queryset(self):
         return Contract.objects.all()
 
@@ -75,7 +78,9 @@ class EventViewSet(viewsets.ModelViewSet):
     """
 
     serializer_class = EventSerializer
-    permission_classes = [IsAuthenticated, SupportTeam | SalesTeam]
+    permission_classes = [IsAuthenticated, RolesPermissions]
 
+    # on renvoie que les objets liés a celui qui request # todo
+    # si user support get un objet pas à lui, peut pas, si objet a lui il peut
     def get_queryset(self):
         return Event.objects.all()
