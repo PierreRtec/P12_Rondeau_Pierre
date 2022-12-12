@@ -32,7 +32,6 @@ class CustomUser(AbstractUser):
 
 
 class Customer(models.Model):
-
     objects = None
 
     first_name = models.CharField(max_length=25)
@@ -52,9 +51,11 @@ class Customer(models.Model):
     created_time = models.DateTimeField(auto_now_add=True)
     updated_time = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.company_name
+
 
 class Contract(models.Model):
-
     objects = None
 
     amount = models.FloatField()
@@ -79,7 +80,6 @@ class Contract(models.Model):
 
 
 class Event(models.Model):
-
     objects = None
 
     event_status = models.BooleanField(default=True)
