@@ -1,8 +1,3 @@
-from django.contrib import admin
-from django.urls import include, path
-from rest_framework_nested import routers
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-
 from crm_app.views import (
     ContractViewSet,
     CustomerViewSet,
@@ -10,6 +5,10 @@ from crm_app.views import (
     EventViewSet,
     GroupViewSet,
 )
+from django.contrib import admin
+from django.urls import include, path
+from rest_framework_nested import routers
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 router = routers.SimpleRouter()
 router.register(r"customers", CustomerViewSet, basename="customers")

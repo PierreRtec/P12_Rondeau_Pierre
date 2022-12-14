@@ -76,7 +76,7 @@ class ContractViewSet(viewsets.ModelViewSet):
         "^customer__last_name",
         "^customer__email",
         "^created_time",
-        "^payment_due"
+        "^payment_due",
     ]
     filterset_fields = [
         "customer__first_name",
