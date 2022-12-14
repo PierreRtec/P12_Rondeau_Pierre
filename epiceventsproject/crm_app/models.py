@@ -1,4 +1,4 @@
-from crm_app.management_user import UserManager
+from .management_user import UserManager
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -59,8 +59,8 @@ class Contract(models.Model):
     objects = None
 
     amount = models.FloatField()
-    status = models.BooleanField(default=True)
-    client = models.ForeignKey(
+    status = models.BooleanField(default=False, verbose_name="check if signed")
+    customer = models.ForeignKey(
         to=Customer,
         related_name="sc_customer_contract",
         on_delete=models.CASCADE,
@@ -74,19 +74,36 @@ class Contract(models.Model):
         blank=True,
         null=True,
     )
+    event = models.ForeignKey(
+        to="Event",
+        related_name="event_contract",
+        on_delete=models.DO_NOTHING,
+        blank=True,
+        null=True,
+    )
     payment_due = models.DateTimeField()
     created_time = models.DateTimeField(auto_now_add=True)
     updated_time = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.customer}"
 
 
 class Event(models.Model):
     objects = None
 
-    event_status = models.BooleanField(default=True)
-    client = models.ForeignKey(
+    event_status = models.BooleanField(default=False, verbose_name="check if finished")
+    customer = models.ForeignKey(
         to=Customer,
         related_name="sc_customer_event",
         on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+    )
+    contract = models.ForeignKey(
+        to=Contract,
+        related_name="event_contract",
+        on_delete=models.DO_NOTHING,
         blank=True,
         null=True,
     )
@@ -102,3 +119,6 @@ class Event(models.Model):
     event_date = models.DateTimeField(verbose_name="Example: 31/12/2022 10:02:44")
     created_time = models.DateTimeField(auto_now_add=True)
     updated_time = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.customer}"

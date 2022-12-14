@@ -20,7 +20,6 @@ router.register(r"groups", GroupViewSet, basename="group")
 customers_router = routers.NestedSimpleRouter(router, r"customers", lookup="customer")
 contracts_router = routers.NestedSimpleRouter(router, r"contracts", lookup="contract")
 events_router = routers.NestedSimpleRouter(router, r"events", lookup="event")
-# todo: check si ok pour get users list, details
 custom_users_router = routers.NestedSimpleRouter(router, r"users", lookup="user")
 groups_router = routers.NestedSimpleRouter(router, r"groups", lookup="group")
 

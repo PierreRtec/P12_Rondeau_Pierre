@@ -22,7 +22,7 @@ class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
         fields = "__all__"
-        read_only_fields = ("id", "sale_contact", "created_time", "updated_time")
+        read_only_fields = ("id", "sales_contact", "created_time", "updated_time")
 
     def _user(self):
         request = self.context.get("request", None)
@@ -64,8 +64,8 @@ class ContractSerializer(serializers.ModelSerializer):
             payment_due=validated_data["payment_due"],
         )
         contracts.save()  # on save le contrat
-        contracts.client.prospect = False  # on set son att prospect à False
-        contracts.client.save()  # on save le client du contrat
+        contracts.customer.prospect = False  # on set son att prospect à False
+        contracts.customer.save()  # on save le client du contrat
         return contracts
 
 
