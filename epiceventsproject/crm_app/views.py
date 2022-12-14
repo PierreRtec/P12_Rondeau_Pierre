@@ -49,7 +49,7 @@ class CustomerViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     search_fields = ["^first_name", "^last_name", "^company_name"]
     ordering_fields = ["^first_name", "^last_name"]
-    filterset_fields = ["status"]
+    filterset_fields = ["prospect"]
 
     def get_queryset(self):
         # sales #marketing
