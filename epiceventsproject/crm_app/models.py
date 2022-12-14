@@ -53,7 +53,14 @@ class Customer(models.Model):
     updated_time = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.company_name
+        prospect = self.prospect
+
+        if prospect is False:
+            prospect_or_customer = "customer"
+        else:
+            prospect_or_customer = "prospect"
+
+        return f"{self.first_name} {self.last_name}, {prospect_or_customer}"
 
 
 class Contract(models.Model):
