@@ -60,7 +60,7 @@ class Contract(models.Model):
     objects = None
 
     amount = models.FloatField()
-    status = models.BooleanField(default=False, verbose_name="check if signed")
+    status = models.BooleanField(default=False, verbose_name="Signed")
     customer = models.ForeignKey(
         to=Customer,
         related_name="sc_customer_contract",
@@ -87,7 +87,14 @@ class Contract(models.Model):
     updated_time = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.customer}"
+        contract_status = self.status
+
+        if contract_status is False:
+            contract_status = "is not signed"
+        else:
+            contract_status = "is signed"
+
+        return f"Contract n°{self.id}, customer : {self.customer}, status : {contract_status}"
 
 
 class Event(models.Model):

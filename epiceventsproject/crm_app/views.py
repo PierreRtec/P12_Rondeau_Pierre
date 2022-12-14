@@ -1,6 +1,7 @@
 from django.contrib.auth.models import Group
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets
+from rest_framework.filters import SearchFilter
 from rest_framework.permissions import IsAuthenticated
 
 from .models import Contract, Customer, CustomUser, Event
@@ -37,10 +38,10 @@ class CustomUserViewSet(viewsets.ModelViewSet):
 
     serializer_class = CustomUserSerializer
     permission_classes = [IsAuthenticated]
-    filter_backends = [DjangoFilterBackend]
-    search_fields = []
-    ordering_fields = []
-    filterset_fields = []
+    filter_backends = [SearchFilter, DjangoFilterBackend]
+    search_fields = ["^first_name", "^last_name", "^company_name"]
+    ordering_fields = ["^first_name", "^last_name"]
+    filterset_fields = ["status"]
 
     def get_queryset(self):
         return CustomUser.objects.all()
