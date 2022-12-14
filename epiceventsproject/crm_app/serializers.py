@@ -4,14 +4,12 @@ from rest_framework import serializers
 from .models import Contract, Customer, CustomUser, Event
 
 
-# todo check si ok recup groups (+ check view)
 class GroupSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Group
         fields = ["url", "name"]
 
 
-# todo check si ok recup users (+ check view)
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
@@ -63,9 +61,9 @@ class ContractSerializer(serializers.ModelSerializer):
             client=validated_data["client"],
             payment_due=validated_data["payment_due"],
         )
-        contracts.save()  # on save le contrat
-        contracts.customer.prospect = False  # on set son att prospect à False
-        contracts.customer.save()  # on save le client du contrat
+        contracts.save()
+        contracts.customer.prospect = False
+        contracts.customer.save()
         return contracts
 
 

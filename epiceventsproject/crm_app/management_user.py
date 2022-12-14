@@ -1,12 +1,14 @@
-# Django 4.1
-
 from django.contrib.auth.base_user import BaseUserManager
 
 
 class UserManager(BaseUserManager):
     def create_user(self, username, email, password, role, **extra_fields):
         """
-        Create and save a user with the given username, email, password and role.
+        Create and save a user with :
+        - the given username
+        - email
+        - password
+        - role
         """
 
         extra_fields.setdefault("is_active", True)
@@ -19,7 +21,12 @@ class UserManager(BaseUserManager):
 
     def create_superuser(self, username, email, password, **extra_fields):
         """
-        Create and save a superuser with the given username, email, password, role and 'is_superuser' extra_fields.
+        Create and save a superuser with extra_fields :
+        - the given username
+        - email
+        - password
+        - role
+        - is_superuser
         """
         extra_fields.setdefault("is_superuser", True)
         extra_fields.setdefault("is_staff", True)

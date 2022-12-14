@@ -1,8 +1,7 @@
 from rest_framework import permissions
 from rest_framework.exceptions import PermissionDenied
-from rest_framework.permissions import SAFE_METHODS
 
-from .models import Contract, Event
+from .models import Event
 
 """CUSTOM PERMISSIONS"""
 

@@ -1,6 +1,7 @@
 from django.contrib.auth.models import Group
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
+from django_filters.rest_framework import DjangoFilterBackend
 
 from .models import Contract, Customer, CustomUser, Event
 from .permissions import ContractPerms, CustomersPerms, EventsPerms
@@ -15,11 +16,15 @@ from .serializers import (
 
 class GroupViewSet(viewsets.ModelViewSet):
     """
-    ViewSet for /groups/ API endpoint
+    ViewSet for "/groups/" API endpoint
     """
 
     serializer_class = GroupSerializer
     permission_classes = [IsAuthenticated]
+    filter_backends = [DjangoFilterBackend]
+    search_fields = []
+    ordering_fields = []
+    filterset_fields = []
 
     def get_queryset(self):
         return Group.objects.all()
@@ -27,11 +32,15 @@ class GroupViewSet(viewsets.ModelViewSet):
 
 class CustomUserViewSet(viewsets.ModelViewSet):
     """
-    ViewSet for /users/ API endpoint
+    ViewSet for "/users/" API endpoint
     """
 
     serializer_class = CustomUserSerializer
     permission_classes = [IsAuthenticated]
+    filter_backends = [DjangoFilterBackend]
+    search_fields = []
+    ordering_fields = []
+    filterset_fields = []
 
     def get_queryset(self):
         return CustomUser.objects.all()
@@ -40,11 +49,15 @@ class CustomUserViewSet(viewsets.ModelViewSet):
 # todo: check perms
 class CustomerViewSet(viewsets.ModelViewSet):
     """
-    ViewSet for /customers/ API endpoint
+    ViewSet for "/customers/" API endpoint
     """
 
     serializer_class = CustomerSerializer
     permission_classes = [IsAuthenticated, CustomersPerms]
+    filter_backends = [DjangoFilterBackend]
+    search_fields = []
+    ordering_fields = []
+    filterset_fields = []
 
     def get_queryset(self):
         # sales #marketing
@@ -60,14 +73,17 @@ class CustomerViewSet(viewsets.ModelViewSet):
             return Customer.objects.all()
 
 
-# todo: check perms
 class ContractViewSet(viewsets.ModelViewSet):
     """
-    ViewSet for /contracts/ API endpoint
+    ViewSet for "/contracts/" API endpoint
     """
 
     serializer_class = ContractSerializer
     permission_classes = [IsAuthenticated, ContractPerms]
+    filter_backends = [DjangoFilterBackend]
+    search_fields = []
+    ordering_fields = []
+    filterset_fields = []
 
     def get_queryset(self):
         # sales #marketing
@@ -78,18 +94,22 @@ class ContractViewSet(viewsets.ModelViewSet):
         elif self.request.user.role == 2:
             return [event.event_contract for event in self.request.user.sc_event.all()]
 
+        # admin
         elif self.request.user.role == 1:
             return Contract.objects.all()
 
 
-# todo: check perms
 class EventViewSet(viewsets.ModelViewSet):
     """
-    ViewSet for /events/ API endpoint
+    ViewSet for "/events/" API endpoint
     """
 
     serializer_class = EventSerializer
     permission_classes = [IsAuthenticated, EventsPerms]
+    filter_backends = [DjangoFilterBackend]
+    search_fields = []
+    ordering_fields = []
+    filterset_fields = []
 
     def get_queryset(self):
         # sales #marketing

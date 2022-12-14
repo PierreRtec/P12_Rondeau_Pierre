@@ -12,6 +12,7 @@ isort = "*"
 flake8 = "*"
 drf-nested-routers = "*"
 psycopg2 = "*"
+django-filter = "*"
 
 [dev-packages]
 
