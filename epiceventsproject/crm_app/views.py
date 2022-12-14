@@ -1,7 +1,7 @@
 from django.contrib.auth.models import Group
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
-from django_filters.rest_framework import DjangoFilterBackend
 
 from .models import Contract, Customer, CustomUser, Event
 from .permissions import ContractPerms, CustomersPerms, EventsPerms
@@ -46,7 +46,6 @@ class CustomUserViewSet(viewsets.ModelViewSet):
         return CustomUser.objects.all()
 
 
-# todo: check perms
 class CustomerViewSet(viewsets.ModelViewSet):
     """
     ViewSet for "/customers/" API endpoint

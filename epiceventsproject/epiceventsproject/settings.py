@@ -31,7 +31,7 @@ INSTALLED_APPS = [
     "epiceventsproject",
     "rest_framework",
     "rest_framework_simplejwt",
-    'django_filters',
+    "django_filters",
 ]
 
 MIDDLEWARE = [
@@ -131,7 +131,7 @@ REST_FRAMEWORK = {
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
     "DATETIME_FORMAT": "%Y-%m-%d",
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
 }
 
 SIMPLE_JWT = {

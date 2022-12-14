@@ -22,17 +22,14 @@ class CustomersPerms(permissions.BasePermission):
     """
 
     def has_object_permission(self, request, view, obj):
-        # if user role manager, grant all or read only ??
         if view.action and request.user.role == 1:
             return True
 
-        # if get post put and sales
         if view.action in ("create", "retrieve", "update") and request.user.role == 3:
             return request.user == obj.sales_contact
 
-        # if get and support
         if view.action == "retrieve" and request.user.role == 2:
-            return Event.objects.filter(support_contact=request.user)  # todo: check si toujours utile
+            return Event.objects.filter(support_contact=request.user)
 
         else:
             raise PermissionDenied("You do not have permission.")
@@ -53,11 +50,9 @@ class ContractPerms(permissions.BasePermission):
     """
 
     def has_object_permission(self, request, view, obj):
-        # if user role manager
         if view.action and request.user.role == 1:
             return True
 
-        # if get post put and sales
         if view.action in ("create", "retrieve", "update") and request.user.role == 3:
             return request.user == obj.contract.sales_contact
 
@@ -83,10 +78,8 @@ class EventsPerms(permissions.BasePermission):
 
     def has_object_permission(self, request, view, obj):
 
-        # if user role manager
         if view.action and request.user.role == 1:
             return True
-        # if get post put and sales
         if view.action in ("create", "retrieve", "update") and request.user.role == 3:
             return request.user == obj.event.sales_contact
         if view.action == "retrieve" and request.user.role == 2:
