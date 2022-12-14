@@ -22,10 +22,6 @@ class GroupViewSet(viewsets.ModelViewSet):
 
     serializer_class = GroupSerializer
     permission_classes = [IsAuthenticated]
-    filter_backends = [DjangoFilterBackend]
-    search_fields = []
-    ordering_fields = []
-    filterset_fields = []
 
     def get_queryset(self):
         return Group.objects.all()
@@ -38,10 +34,6 @@ class CustomUserViewSet(viewsets.ModelViewSet):
 
     serializer_class = CustomUserSerializer
     permission_classes = [IsAuthenticated]
-    filter_backends = [SearchFilter, DjangoFilterBackend]
-    search_fields = ["^first_name", "^last_name", "^company_name"]
-    ordering_fields = ["^first_name", "^last_name"]
-    filterset_fields = ["status"]
 
     def get_queryset(self):
         return CustomUser.objects.all()
@@ -55,9 +47,9 @@ class CustomerViewSet(viewsets.ModelViewSet):
     serializer_class = CustomerSerializer
     permission_classes = [IsAuthenticated, CustomersPerms]
     filter_backends = [DjangoFilterBackend]
-    search_fields = []
-    ordering_fields = []
-    filterset_fields = []
+    search_fields = ["^first_name", "^last_name", "^company_name"]
+    ordering_fields = ["^first_name", "^last_name"]
+    filterset_fields = ["status"]
 
     def get_queryset(self):
         # sales #marketing
@@ -81,9 +73,9 @@ class ContractViewSet(viewsets.ModelViewSet):
     serializer_class = ContractSerializer
     permission_classes = [IsAuthenticated, ContractPerms]
     filter_backends = [DjangoFilterBackend]
-    search_fields = []
-    ordering_fields = []
-    filterset_fields = []
+    search_fields = ["^customer__first_name", "^customer__last_name", "customer__^company_name"]
+    ordering_fields = ["^customer__first_name", "^customer__last_name"]
+    filterset_fields = ["created_time", "updated_time"]
 
     def get_queryset(self):
         # sales #marketing
