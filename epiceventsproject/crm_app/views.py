@@ -2,6 +2,7 @@ from django.contrib.auth.models import Group
 from rest_framework import viewsets
 from rest_framework.filters import SearchFilter
 from rest_framework.permissions import IsAuthenticated
+from django_filters.rest_framework import DjangoFilterBackend
 
 from .models import Contract, Customer, CustomUser, Event
 from .permissions import ContractPerms, CustomersPerms, EventsPerms
@@ -45,9 +46,10 @@ class CustomerViewSet(viewsets.ModelViewSet):
 
     serializer_class = CustomerSerializer
     permission_classes = [IsAuthenticated, CustomersPerms]
-    filter_backends = [SearchFilter]
-    search_fields = ["^first_name", "^last_name", "^company_name"]
+    filter_backends = [SearchFilter, DjangoFilterBackend]
+    search_fields = ["first_name", "last_name", "company_name"]
     filterset_fields = ["prospect", "first_name", "company_name"]
+    ordering_fields = ["first_name", "company_name"]
 
     def get_queryset(self):
         # sales #marketing
@@ -70,19 +72,20 @@ class ContractViewSet(viewsets.ModelViewSet):
 
     serializer_class = ContractSerializer
     permission_classes = [IsAuthenticated, ContractPerms]
-    filter_backends = [SearchFilter]
+    filter_backends = [SearchFilter, DjangoFilterBackend]
     search_fields = [
-        "^customer__first_name",
-        "^customer__last_name",
-        "^customer__email",
-        "^created_time",
-        "^payment_due",
+        "customer__first_name",
+        "customer__last_name",
+        "customer__email",
+        "created_time",
+        "amount",
     ]
     filterset_fields = [
         "customer__first_name",
         "customer__last_name",
         "customer__email",
         "customer__phone_number",
+        "amount",
     ]
 
     def get_queryset(self):
@@ -106,18 +109,20 @@ class EventViewSet(viewsets.ModelViewSet):
 
     serializer_class = EventSerializer
     permission_classes = [IsAuthenticated, EventsPerms]
-    filter_backends = [SearchFilter]
+    filter_backends = [SearchFilter, DjangoFilterBackend]
     search_fields = [
-        "^event__first_name",
-        "^event__last_name",
-        "^event__email",
-        "^event_date",
+        "customer__first_name",
+        "customer__last_name",
+        "customer__email",
+        "event_date",
+        "event_status",
     ]
     filterset_fields = [
-        "event__first_name",
-        "event__last_name",
-        "event__email",
+        "customer__first_name",
+        "customer__last_name",
+        "customer__email",
         "event_date",
+        "event_status",
     ]
 
     def get_queryset(self):
