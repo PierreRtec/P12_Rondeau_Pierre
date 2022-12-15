@@ -73,7 +73,7 @@ WSGI_APPLICATION = "epiceventsproject.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "postgres",
+        "NAME": "dev_epic_events",
         "USER": "admin_dev",
         "PASSWORD": "admin",
         "HOST": "localhost",
@@ -103,7 +103,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = "fr"
+LANGUAGE_CODE = "fr-FR"
 
 TIME_ZONE = "Europe/Paris"
 
