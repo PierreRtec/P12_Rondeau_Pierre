@@ -12,9 +12,10 @@ class Provider(faker.providers.BaseProvider):
     @staticmethod
     def create_custom_users(fake):
         """
-        Creates 10 customs users to start using EpicEvents.
+        Creates N customs users to start using EpicEvents.
+        Changes range to get the number of custom users you want.
         """
-        for _ in range(10):
+        for _ in range(0):
             CustomUser.objects.create_user(
                         first_name=fake.first_name(),
                         last_name=fake.last_name(),
@@ -27,13 +28,13 @@ class Provider(faker.providers.BaseProvider):
 
 class Command(BaseCommand):
 
-    help = "Creation of random users."
+    help = "Creation of custom users."
 
     def handle(self, *args, **options):
 
-        fake = Faker()
+        fake = Faker(["fr-FR"])
         fake.add_provider(Provider)
 
         fake.create_custom_users(fake)
-        print("created 10 custom users successfully !")
+        print("created N custom users successfully !")
 
