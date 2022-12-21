@@ -24,6 +24,11 @@ custom_users_router = routers.NestedSimpleRouter(router, r"users", lookup="user"
 groups_router = routers.NestedSimpleRouter(router, r"groups", lookup="group")
 
 
+# this code is for sentry testing
+def trigger_error(request):
+    division_by_zero = 1 / 0
+
+
 urlpatterns = [
     # admin management authentication url
     # required to create a superuser first
@@ -39,4 +44,6 @@ urlpatterns = [
     path("api/", include(events_router.urls)),
     path("api/", include(custom_users_router.urls)),
     path("api/", include(groups_router.urls)),
+    # sentry
+    path('sentry-debug/', trigger_error),
 ]

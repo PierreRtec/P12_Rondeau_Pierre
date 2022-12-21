@@ -1,6 +1,8 @@
 import os
 from datetime import timedelta
 from pathlib import Path
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -140,3 +142,19 @@ SIMPLE_JWT = {
 }
 
 AUTH_USER_MODEL = "crm_app.CustomUser"
+
+sentry_sdk.init(
+    dsn="https://e4417b61395341878c00e21fa7575172@o4504366467710976.ingest.sentry.io/4504366479179776",
+    integrations=[
+        DjangoIntegration(),
+    ],
+
+    # Set traces_sample_rate to 1.0 to capture 100%
+    # of transactions for performance monitoring.
+    # We recommend adjusting this value in production.
+    traces_sample_rate=1.0,
+
+    # If you wish to associate users to errors (assuming you are using
+    # django.contrib.auth) you may enable sending PII data.
+    send_default_pii=True
+)
