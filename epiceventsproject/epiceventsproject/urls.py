@@ -1,3 +1,8 @@
+from django.contrib import admin
+from django.urls import include, path
+from rest_framework_nested import routers
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+
 from crm_app.views import (
     ContractViewSet,
     CustomerViewSet,
@@ -5,10 +10,6 @@ from crm_app.views import (
     EventViewSet,
     GroupViewSet,
 )
-from django.contrib import admin
-from django.urls import include, path
-from rest_framework_nested import routers
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 router = routers.SimpleRouter()
 router.register(r"customers", CustomerViewSet, basename="customers")
@@ -45,5 +46,5 @@ urlpatterns = [
     path("api/", include(custom_users_router.urls)),
     path("api/", include(groups_router.urls)),
     # sentry
-    path('sentry-debug/', trigger_error),
+    path("sentry-debug/", trigger_error),
 ]

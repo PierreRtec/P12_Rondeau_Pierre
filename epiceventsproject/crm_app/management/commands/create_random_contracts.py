@@ -8,7 +8,6 @@ from crm_app.models import Contract
 
 
 class Provider(faker.providers.BaseProvider):
-
     @staticmethod
     def create_contracts(fake):
         """

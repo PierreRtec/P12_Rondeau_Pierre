@@ -1,8 +1,8 @@
 from django.contrib.auth.models import Group
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets
 from rest_framework.filters import SearchFilter
 from rest_framework.permissions import IsAuthenticated
-from django_filters.rest_framework import DjangoFilterBackend
 
 from .models import Contract, Customer, CustomUser, Event
 from .permissions import ContractPerms, CustomersPerms, EventsPerms
@@ -58,7 +58,9 @@ class CustomerViewSet(viewsets.ModelViewSet):
 
         # support_team
         elif self.request.user.role == 2:
-            return [event.customer for event in self.request.user.sc_event.all()]
+            return Customer.objects.filter(
+                sc_customer_contract__event__support_contact=self.request.user
+            )
 
         # admin
         elif self.request.user.role == 1:
@@ -95,7 +97,9 @@ class ContractViewSet(viewsets.ModelViewSet):
 
         # support
         elif self.request.user.role == 2:
-            return [event.event_contract for event in self.request.user.sc_event.all()]
+            return Contract.objects.filter(
+                event_contract__support_contact=self.request.user
+            )
 
         # admin
         elif self.request.user.role == 1:
