@@ -3,7 +3,7 @@ EpicEvents - CRM sécurisé pour la gestion d'évenements... EPIC !
 ---
 
 Epic Events est une société d'organisation d'événements épics. Cette application sert de gestion de relation clients.
-Dévellopée avec le framework Django ORM ainsi que Django REST pour la partie de l'API.
+Dévelopée avec le framework Django ORM ainsi que Django REST pour la partie de l'API.
 
 Epic Events est divisée en deux applications :
 
