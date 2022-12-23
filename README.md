@@ -1,5 +1,13 @@
-EpicEvents - CRM sécurisé pour la gestion d'évenements... EPIC !
+<div align="center">
+    <img src="https://user.oc-static.com/upload/2020/09/22/16007804386673_P10.png">
+</div>
+<div id="snippets" align="center">
+<span><strong>made with</strong></span>
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" title="Python" alt="Python" width="40" height="40"/>&nbsp;
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/django/django-plain-wordmark.svg" title="Django" alt="Django" width="40" height="40"/>&nbsp;
+</div>
 
+EpicEvents - CRM sécurisé pour la gestion d'événements... EPIC !
 ---
 
 Epic Events est une société d'organisation d'événements épics. Cette application sert de gestion de relation clients.
