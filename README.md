@@ -48,7 +48,7 @@ Pour plus de précisions : https://pypi.org/project/pipenv/
 
 ## Comment exécuter le serveur de l'application *Epic Events* ?
 
-Vous devrez configurer votre base de données **PostgreSQL** via l'outil [PgAdmin](https://www.pgadmin.org/download/).
+Vous devrez configurer votre base de données **PostgreSQL** via l'outil [PgAdmin](https://www.postgresql.org/download/windows/) via "l'EDB installer", cela vous évitera les problèmes de tcp/ip sur windows.
 
 Il faudra tout d'abord créer un serveur local, nommé "**localhost**" sur le port par défaut "5432". Ensuite, créer un **utilisateur** et une **base de données**. 
 
