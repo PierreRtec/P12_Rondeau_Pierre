@@ -25,7 +25,9 @@ Epic Events est divisée en deux applications :
 
 ### Prérequis :
 
-    [Python 3](https://www.python.org/downloads/)
+_[Python3](https://www.python.org/downloads/)_
+
+    Python 3
     Environnement virtuel
     pipfile
     commandes pip à jour
