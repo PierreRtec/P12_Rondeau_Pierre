@@ -25,7 +25,7 @@ Epic Events est divisée en deux applications :
 
 ### Prérequis :
 
-    (Python 3)[https://www.python.org/downloads/]
+    [Python 3](https://www.python.org/downloads/)
     Environnement virtuel
     pipfile
     commandes pip à jour
@@ -46,7 +46,7 @@ Pour plus de précisions : https://pypi.org/project/pipenv/
 
 ## Comment exécuter le serveur de l'application *Epic Events* ?
 
-Vous devrez configurer votre base de données **PostgreSQL** via l'outil (PgAdmin)[https://www.pgadmin.org/download/].
+Vous devrez configurer votre base de données **PostgreSQL** via l'outil [PgAdmin](https://www.pgadmin.org/download/).
 
 Il faudra tout d'abord créer un serveur local, nommé "**localhost**" sur le port par défaut "5432". Ensuite, créer un **utilisateur** et une **base de données**. 
 
