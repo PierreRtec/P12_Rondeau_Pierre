@@ -87,7 +87,7 @@ class Contract(models.Model):
         related_name="event_contract",
         on_delete=models.DO_NOTHING,
         blank=True,
-        null=True,
+        null=False,
     )
     payment_due = models.DateTimeField()
     created_time = models.DateTimeField(auto_now_add=True)

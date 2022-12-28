@@ -83,7 +83,7 @@ class EventsPerms(permissions.BasePermission):
         if view.action in ("create", "retrieve", "update") and request.user.role == 3:
             return request.user == obj.sales_contact
 
-        if view.action == "retrieve" and request.user.role == 2:
+        if view.action in ("retrieve", "update") and request.user.role == 2:
             return Event.objects.filter(support_contact=request.user)
 
         else:
